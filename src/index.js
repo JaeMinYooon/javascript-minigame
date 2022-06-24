@@ -2,6 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
+let location = [];
+
+function calculateLocation(squares, lastSquares) {
+  let a = ["1,1", "1,2", "1,3", "2,1", "2,2", "2,3", "3,1", "3,2", "3,3"];
+  for (let i = 0; i < 9; i++) {
+    if (squares[i] !== lastSquares[i]) {
+      if (!location.includes(a[i])) {
+        location.push(a[i]);
+      }
+
+      return;
+    }
+  }
+}
+
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -107,7 +122,15 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? "Go to move #" + move : "Go to game start";
+      if (history.length > 1) {
+        calculateLocation(
+          history[history.length - 1].squares,
+          history[history.length - 2].squares
+        );
+      }
+      const desc = move
+        ? "Go to move (" + location[move - 1] + ") #" + move
+        : "Go to game start";
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
