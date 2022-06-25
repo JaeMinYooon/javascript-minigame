@@ -88,6 +88,7 @@ class Game extends React.Component {
       ],
       stepNumber: 0,
       xIsNext: true,
+      sort: false,
     };
   }
   handleClick(i) {
@@ -113,6 +114,11 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: step % 2 === 0,
+    });
+  }
+  changeSort() {
+    this.setState({
+      sort: !this.state.sort,
     });
   }
 
@@ -160,7 +166,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.changeSort()}>Toggle Button</button>
+          {this.state.sort ? <ol>{moves.reverse()}</ol> : <ol>{moves}</ol>}
         </div>
       </div>
     );
