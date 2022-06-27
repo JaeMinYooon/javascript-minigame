@@ -17,6 +17,7 @@ function calculateLocation(squares, lastSquares) {
   }
 }
 let lineSave = [];
+let count = 0;
 
 function calculateWinner(squares) {
   const lines = [
@@ -36,6 +37,7 @@ function calculateWinner(squares) {
       return squares[a];
     }
   }
+  count++;
   return null;
 }
 
@@ -162,6 +164,9 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = "Winner: " + winner;
+    } else if (this.state.stepNumber === current.squares.length) {
+      // }else if (count === 19){
+      status = "무승부";
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
