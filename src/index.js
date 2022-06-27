@@ -16,6 +16,7 @@ function calculateLocation(squares, lastSquares) {
     }
   }
 }
+let lineSave = [];
 
 function calculateWinner(squares) {
   const lines = [
@@ -31,6 +32,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      lineSave = lines[i];
       return squares[a];
     }
   }
@@ -39,7 +41,13 @@ function calculateWinner(squares) {
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button
+      className="square"
+      onClick={props.onClick}
+      style={{
+        color: lineSave.includes(props.location) ? "red" : "black",
+      }}
+    >
       {props.value}
     </button>
   );
@@ -50,6 +58,7 @@ class Board extends React.Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        location={i}
       />
     );
   }
